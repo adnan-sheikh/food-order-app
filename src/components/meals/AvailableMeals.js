@@ -1,7 +1,5 @@
 import classes from './AvailableMeals.module.css';
 
-import MealsSummary from './MealsSummary';
-
 const DUMMY_MEALS = [
   {
     id: 'm1',
@@ -36,9 +34,6 @@ const AvailableMeals = () => {
     <section className={classes.meals}>
       <ul>{mealsList}</ul>
     </section>
-    // <div>
-    //   <MealsSummary />
-    // </div>
   );
 };
 
