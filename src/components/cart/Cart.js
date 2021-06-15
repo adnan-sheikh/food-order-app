@@ -13,11 +13,11 @@ const Cart = (props) => {
   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
 
   const handleRemoveCartItem = (id) => {
-    
+    cartCtx.removeItem(id);
   }
 
   const handleAddCartItem = (item) => {
-
+    cartCtx.addItem({...item, amount: 1});
   }
 
   const cartItems = cartCtx.items.map((item) => (
@@ -26,8 +26,8 @@ const Cart = (props) => {
       name={item.name}
       amount={item.amount}
       price={item.price}
-      onAdd={handleAddCartItem.bind(null, item.id)}
-      onRemove={handleRemoveCartItem.bind(null, item)}
+      onAdd={handleAddCartItem.bind(null, item)}
+      onRemove={handleRemoveCartItem.bind(null, item.id)}
     />
   ));
 
