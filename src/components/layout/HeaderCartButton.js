@@ -14,6 +14,8 @@ const HeaderCartButton = (props) => {
     return acc + currItem.amount;
   }, 0);
 
+  const totalAmount = cartCtx.totalAmount;
+
   useEffect(() => {
     if (cartCtx.items.length === 0) {
       return;
@@ -38,6 +40,7 @@ const HeaderCartButton = (props) => {
       </span>
       <span>Your Cart</span>
       <span className={classes.badge}>{numberOfCartItems}</span>
+      <span className={classes.badge}>{`$${totalAmount}`}</span>
     </button>
   );
 };
