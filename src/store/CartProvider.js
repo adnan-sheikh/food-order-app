@@ -59,6 +59,11 @@ const cartReducer = (state, action) => {
         totalAmount: updatedTotalAmount,
       };
     }
+
+    case 'CLEAR': {
+      return defaultCartState;
+    }
+
     default:
       throw new Error('No such action type');
   }
@@ -78,11 +83,16 @@ const CartProvider = (props) => {
     dispatchCartAction({ type: 'REMOVE', id: id });
   };
 
+  const handleClearCart = () => {
+    dispatchCartAction({ type: 'CLEAR' });
+  };
+
   const cartContext = {
     items: cartState.items,
     totalAmount: cartState.totalAmount,
     addItem: handleAddItemToCart,
     removeItem: handleRemoveItemFromCart,
+    clearCart: handleClearCart,
   };
 
   return (

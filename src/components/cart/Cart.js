@@ -9,6 +9,9 @@ import Checkout from './Checkout';
 
 const Cart = (props) => {
   const [isCheckout, setIsCheckout] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [didSumbit, setDidSubmit] = useState(false);
+
   const cartCtx = useContext(CartContext);
 
   const hasItems = cartCtx.items.length > 0;
@@ -37,6 +40,23 @@ const Cart = (props) => {
     setIsCheckout(true);
   };
 
+  const handleSubmitOrder = async (userData) => {
+    setIsSubmitting(true);
+    await fetch(
+      'https://react-http-bd80c-default-rtdb.asia-southeast1.firebasedatabase.app/orders.json',
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          user: userData,
+          orderedItems: cartCtx.items,
+        }),
+      }
+    );
+    setIsSubmitting(false);
+    setDidSubmit(true);
+    cartCtx.clearCart();
+  };
+
   const modalActions = (
     <div className={classes.actions}>
       <button onClick={props.onHideCart} className={classes['button--alt']}>
@@ -50,15 +70,38 @@ const Cart = (props) => {
     </div>
   );
 
-  return (
-    <Modal onHideCart={props.onHideCart}>
+  const cartModalContent = (
+    <>
       <ul className={classes['cart-items']}>{cartItems}</ul>
       <div className={classes.total}>
         <span>Total Amount</span>
         <span>{totalAmount}</span>
       </div>
-      {isCheckout && <Checkout onCancel={props.onHideCart} />}
+      {isCheckout && (
+        <Checkout onConfirm={handleSubmitOrder} onCancel={props.onHideCart} />
+      )}
       {!isCheckout && modalActions}
+    </>
+  );
+
+  const isSubmittingModalContent = <p>Sending order data...</p>;
+
+  const didSubmitModalContent = (
+    <>
+      <p>Successfully sent the order!</p>
+      <div className={classes.actions}>
+        <button onClick={props.onHideCart} className={classes.button}>
+          Close
+        </button>
+      </div>
+    </>
+  );
+
+  return (
+    <Modal onHideCart={props.onHideCart}>
+      {!isSubmitting && !didSumbit && cartModalContent}
+      {isSubmitting && isSubmittingModalContent}
+      {!isSubmitting && didSumbit && didSubmitModalContent}
     </Modal>
   );
 };
