@@ -14,7 +14,7 @@ const HeaderCartButton = (props) => {
     return acc + currItem.amount;
   }, 0);
 
-  const totalAmount = cartCtx.totalAmount;
+  const totalAmount = cartCtx.totalAmount.toFixed(2);
 
   useEffect(() => {
     if (cartCtx.items.length === 0) {
