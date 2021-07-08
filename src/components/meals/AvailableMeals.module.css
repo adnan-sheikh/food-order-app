@@ -17,6 +17,13 @@
   font-size: 2rem;
 }
 
+.MealsError {
+  margin-top: 1rem;
+  text-align: center;
+  color: brown;
+  font-size: 1.5rem;
+}
+
 @keyframes meals-appear {
   from {
     opacity: 0;
